@@ -48,6 +48,12 @@ public class LivroController {
         }
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<LivroResponseDTO>> findByTitle(@PathVariable String title) {
+        List<LivroResponseDTO> books = bookService.findByTitle(title);
+        return ResponseEntity.ok(books);
+    }
+
     @PutMapping("{/id}")
     public ResponseEntity<LivroResponseDTO> updateBook(@PathVariable Long id,
                                                        @Valid @RequestBody LivroRequestDTO bookRequest){
