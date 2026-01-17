@@ -28,6 +28,25 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role = Role.CLIENTE;
+
+     public enum Role {
+        CLIENTE("ROLE_CLIENTE"),
+        BIBLIOTECARIO("ROLE_BIBLIOTECARIO");
+
+        private final String authority;
+
+        Role(String authority) {
+            this.authority = authority;
+        }
+
+        public String getAuthority() {
+            return authority;
+        }
+    }
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
