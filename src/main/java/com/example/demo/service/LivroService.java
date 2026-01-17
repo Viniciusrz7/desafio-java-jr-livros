@@ -27,6 +27,12 @@ public class LivroService {
                 .toList();
     }
 
+    public LivroResponseDTO findById(Long id) throws Exception{
+        Livro livro = bookRepository.findById(id)
+                .orElseThrow(() -> new Exception("Livro não encontrado"));
+        return LivroResponseDTO.fromEntity(livro);
+    }
+
     public LivroResponseDTO create(LivroRequestDTO bookRequest) {
         Livro book = new Livro();
         book.setTitulo(bookRequest.titulo());
@@ -38,9 +44,9 @@ public class LivroService {
     }
 
     public LivroResponseDTO update(Long id, LivroRequestDTO bookRequest) throws Exception {
-        if (!bookRepository.existsById(id)) throw new Exception("Livro não encontrado");
+        Livro book = bookRepository.findById(id)
+                .orElseThrow(() -> new Exception("Livro não encontrado"));
 
-        Livro book = bookRepository.findById(id).get();
         book.setTitulo(bookRequest.titulo());
         book.setAutor(bookRequest.autor());
         book.setAnoPublicacao(bookRequest.anoPublicacao());
