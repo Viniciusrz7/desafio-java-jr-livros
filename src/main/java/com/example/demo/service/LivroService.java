@@ -4,12 +4,9 @@ import com.example.demo.dto.LivroRequestDTO;
 import com.example.demo.dto.LivroResponseDTO;
 import com.example.demo.model.Livro;
 import com.example.demo.repository.LivroRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LivroService {
@@ -27,7 +24,14 @@ public class LivroService {
                 .toList();
     }
 
-    public LivroResponseDTO findById(Long id) throws Exception{
+    public List<LivroResponseDTO> findByTitle(String title) {
+        return bookRepository.findByTituloContainingIgnoreCase(title)
+                .stream()
+                .map(LivroResponseDTO::fromEntity)
+                .toList();
+    }
+
+    public LivroResponseDTO findById(Long id) throws Exception {
         Livro livro = bookRepository.findById(id)
                 .orElseThrow(() -> new Exception("Livro não encontrado"));
         return LivroResponseDTO.fromEntity(livro);
