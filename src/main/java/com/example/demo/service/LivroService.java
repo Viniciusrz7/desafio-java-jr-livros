@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.LivroRequestDTO;
-import com.example.demo.dto.LivroResponseDTO;
+import com.example.demo.dto.request.LivroRequestDTO;
+import com.example.demo.dto.response.LivroResponseDTO;
 import com.example.demo.model.Livro;
 import com.example.demo.repository.LivroRepository;
 import org.springframework.stereotype.Service;
