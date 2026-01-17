@@ -31,6 +31,13 @@ public class LivroService {
                 .toList();
     }
 
+    public List<LivroResponseDTO> findByAuthor(String Author) {
+        return bookRepository.findByAutorContainingIgnoreCase(Author)
+                .stream()
+                .map(LivroResponseDTO::fromEntity)
+                .toList();
+    }
+
     public LivroResponseDTO findById(Long id) throws Exception {
         Livro livro = bookRepository.findById(id)
                 .orElseThrow(() -> new Exception("Livro não encontrado"));
