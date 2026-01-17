@@ -28,7 +28,8 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final TokenConfig tokenConfig;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, TokenConfig tokenConfig) {
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager, TokenConfig tokenConfig) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -38,7 +39,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
 
-        UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(request.email(), request.email());
+        UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(request.email(),
+                request.password());
         Authentication authentication = authenticationManager.authenticate(userAndPass);
 
         User user = (User) authentication.getPrincipal();
@@ -57,6 +59,7 @@ public class AuthController {
 
         userRepository.save(newUser);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterUserResponseDTO(newUser.getName(), newUser.getEmail()));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new RegisterUserResponseDTO(newUser.getName(), newUser.getEmail()));
     }
 }
