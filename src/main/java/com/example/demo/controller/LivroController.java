@@ -58,6 +58,17 @@ public class LivroController {
             System.err.println(e.getMessage());
             return ResponseEntity.notFound().build();
         }
-
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id){
+        try{
+            bookService.remove(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
