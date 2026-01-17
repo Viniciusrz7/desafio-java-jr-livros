@@ -26,6 +26,7 @@ public class LivroController {
             LivroResponseDTO book = bookService.create(bookRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(book);
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -36,5 +37,14 @@ public class LivroController {
         return ResponseEntity.ok(books);
     }
 
-
+    @GetMapping("/{id}")
+    public ResponseEntity<LivroResponseDTO> findById(@PathVariable Long id){
+        try{
+            LivroResponseDTO book = bookService.findById(id);
+            return ResponseEntity.ok(book);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
