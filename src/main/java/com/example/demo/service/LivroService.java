@@ -49,6 +49,11 @@ public class LivroService {
         return LivroResponseDTO.fromEntity(saved);
     }
 
-
+    public void remove(Long id) throws Exception {
+        if (!bookRepository.existsById(id)) {
+            throw new Exception("Livro não encontrado");
+        }
+        bookRepository.deleteById(id);
+    }
 
 }
