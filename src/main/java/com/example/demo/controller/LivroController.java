@@ -48,7 +48,7 @@ public class LivroController {
         }
     }
 
-    @GetMapping("/")
+    @GetMapping("/autor/{autor}")
     public ResponseEntity<List<LivroResponseDTO>> findByTitle(@PathVariable String title) {
         List<LivroResponseDTO> books = bookService.findByTitle(title);
         return ResponseEntity.ok(books);
