@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.util.Optional;
 
-
 @Component
 public class TokenConfig {
 
@@ -27,6 +26,7 @@ public class TokenConfig {
         return JWT.create()
                 .withClaim("userId", user.getId())
                 .withSubject(user.getEmail())
+                .withClaim("role", user.getRole().name())
                 .withExpiresAt(Instant.now().plusSeconds(86400))
                 .withIssuedAt(Instant.now())
                 .sign(algorithm);
@@ -44,8 +44,7 @@ public class TokenConfig {
                     .userId(decode.getClaim("userId").asLong())
                     .email(decode.getSubject())
                     .role(User.Role.valueOf(decode.getClaim("role").asString()))
-                    .build()
-            );
+                    .build());
 
         } catch (JWTVerificationException ex) {
             System.err.println("Token JWT inválido:  " + ex.getMessage());
