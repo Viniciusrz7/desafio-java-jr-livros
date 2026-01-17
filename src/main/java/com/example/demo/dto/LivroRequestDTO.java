@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record LivroRequestDTO(
+
         @NotBlank(message = "Titulo não pode ser vazio")
         @Size(max = 200, message = "Titulo deve ter no máximo 200 caracteres")
         String titulo,
