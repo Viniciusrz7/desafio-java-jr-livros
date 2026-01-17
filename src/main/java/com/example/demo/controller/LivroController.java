@@ -47,4 +47,17 @@ public class LivroController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping("{/id}")
+    public ResponseEntity<LivroResponseDTO> updateBook(@PathVariable Long id,
+                                                       @Valid @RequestBody LivroRequestDTO bookRequest){
+        try{
+            LivroResponseDTO book = bookService.update(id,bookRequest);
+            return ResponseEntity.ok(book);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+
+    }
 }
