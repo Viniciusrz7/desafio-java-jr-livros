@@ -34,6 +34,12 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/api/livro").hasRole("BIBLIOTECARIO")
+                        .requestMatchers(HttpMethod.PUT, "/api/livro/**").hasRole("BIBLIOTECARIO")
+                        .requestMatchers(HttpMethod.DELETE, "/api/livro/**").hasRole("BIBLIOTECARIO")
+
+                        .requestMatchers(HttpMethod.GET, "/api/livro/**").hasAnyRole("CLIENTE", "BIBLIOTECARIO")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
