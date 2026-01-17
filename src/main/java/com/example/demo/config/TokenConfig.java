@@ -48,6 +48,7 @@ public class TokenConfig {
             );
 
         } catch (JWTVerificationException ex) {
+            System.err.println("Token JWT inválido:  " + ex.getMessage());
             return Optional.empty();
         }
 
