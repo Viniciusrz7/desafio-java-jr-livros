@@ -1,5 +1,6 @@
 package com.example.demo.dto.request;
 
+import com.example.demo.model.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -16,6 +17,8 @@ public record RegisterUserRequestDTO(
         String email,
 
         @NotBlank(message = "Senha é obrigatória")
-        String password
+        String password,
+
+        @NotBlank User.Role role
 
 ) {}
