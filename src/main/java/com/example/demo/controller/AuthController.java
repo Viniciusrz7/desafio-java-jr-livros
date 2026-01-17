@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.TokenConfig;
 import com.example.demo.dto.request.LoginRequestDTO;
 import com.example.demo.dto.request.RegisterUserRequestDTO;
 import com.example.demo.dto.response.LoginResponseDTO;
@@ -25,24 +26,29 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final TokenConfig tokenConfig;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager){
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, TokenConfig tokenConfig) {
         this.userRepository = userRepository;
-        this.passwordEncoder= passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.tokenConfig = tokenConfig;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request){
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
 
-        UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(request.email(),request.email());
+        UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(request.email(), request.email());
         Authentication authentication = authenticationManager.authenticate(userAndPass);
 
-        return null;
+        User user = (User) authentication.getPrincipal();
+        String token = tokenConfig.generateToken(user);
+        return ResponseEntity.ok(new LoginResponseDTO(token));
+
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterUserResponseDTO> register(@Valid @RequestBody RegisterUserRequestDTO request){
+    public ResponseEntity<RegisterUserResponseDTO> register(@Valid @RequestBody RegisterUserRequestDTO request) {
         User newUser = new User();
         newUser.setEmail(request.email());
         newUser.setPassword(passwordEncoder.encode(request.password()));
