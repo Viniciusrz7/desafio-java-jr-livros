@@ -3,6 +3,7 @@ package com.example.demo.dto.request;
 import com.example.demo.model.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record RegisterUserRequestDTO(
@@ -19,6 +20,7 @@ public record RegisterUserRequestDTO(
         @NotBlank(message = "Senha é obrigatória")
         String password,
 
-        @NotBlank User.Role role
+        @NotNull(message = "Role é obrigatório")
+        User.Role role
 
 ) {}
