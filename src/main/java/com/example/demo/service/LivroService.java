@@ -9,14 +9,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LivroService {
 
     public final LivroRepository bookRepository;
 
-    public LivroService(LivroRepository livroRepo) {
-        this.bookRepository = livroRepo;
+    public LivroService(LivroRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     public List<LivroResponseDTO> findAll() {
@@ -26,14 +27,28 @@ public class LivroService {
                 .toList();
     }
 
-    public LivroResponseDTO create(LivroRequestDTO livroRequest) {
+    public LivroResponseDTO create(LivroRequestDTO bookRequest) {
         Livro book = new Livro();
-        book.setTitulo(livroRequest.titulo());
-        book.setAutor(livroRequest.autor());
-        book.setAnoPublicacao(livroRequest.anoPublicacao());
+        book.setTitulo(bookRequest.titulo());
+        book.setAutor(bookRequest.autor());
+        book.setAnoPublicacao(bookRequest.anoPublicacao());
 
         Livro saved = bookRepository.save(book);
         return LivroResponseDTO.fromEntity(saved);
     }
+
+    public LivroResponseDTO update(Long id, LivroRequestDTO bookRequest) throws Exception {
+        if (!bookRepository.existsById(id)) throw new Exception("Livro não encontrado");
+
+        Livro book = bookRepository.findById(id).get();
+        book.setTitulo(bookRequest.titulo());
+        book.setAutor(bookRequest.autor());
+        book.setAnoPublicacao(bookRequest.anoPublicacao());
+
+        Livro saved = bookRepository.save(book);
+        return LivroResponseDTO.fromEntity(saved);
+    }
+
+
 
 }
