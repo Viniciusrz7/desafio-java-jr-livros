@@ -45,6 +45,7 @@ public class TokenConfig {
             return Optional.of(JWTUserData.builder()
                     .userId(decode.getClaim("userId").asLong())
                     .email(decode.getSubject())
+                    .role(User.Role.valueOf(decode.getClaim("role").asString()))
                     .build()
             );
 
