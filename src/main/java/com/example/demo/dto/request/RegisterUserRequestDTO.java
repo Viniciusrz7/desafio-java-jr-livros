@@ -16,7 +16,7 @@ public record RegisterUserRequestDTO(
         @Size(max = 100, message = "Email deve ter no máximo 100 caracteres")
         @Email(message = "Email deve ser valido")
         String email,
-
+        
         @NotBlank(message = "Senha é obrigatória")
         String password,
 
