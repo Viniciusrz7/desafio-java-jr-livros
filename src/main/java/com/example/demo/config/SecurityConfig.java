@@ -35,18 +35,20 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/api/livro").hasRole("BIBLIOTECARIO")
-                        .requestMatchers(HttpMethod.PUT, "/api/livro/**").hasRole("BIBLIOTECARIO")
-                        .requestMatchers(HttpMethod.DELETE, "/api/livro/**").hasRole("BIBLIOTECARIO")
+                        .requestMatchers(HttpMethod.POST, "/api/livro").hasAuthority("ROLE_BIBLIOTECARIO")
+                        .requestMatchers(HttpMethod.PUT, "/api/livro/**").hasAuthority("ROLE_BIBLIOTECARIO")
+                        .requestMatchers(HttpMethod.DELETE, "/api/livro/**").hasAuthority("ROLE_BIBLIOTECARIO")
 
-                        .requestMatchers(HttpMethod.GET, "/api/livro/**").hasAnyRole("CLIENTE", "BIBLIOTECARIO")
+                        .requestMatchers(HttpMethod.GET, "/api/livro/**")
+                        .hasAnyAuthority("ROLE_CLIENTE", "ROLE_BIBLIOTECARIO")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

@@ -46,8 +46,7 @@ public class TokenConfig {
                     .role(User.Role.valueOf(decode.getClaim("role").asString()))
                     .build());
 
-        } catch (JWTVerificationException ex) {
-            System.err.println("Token JWT inválido:  " + ex.getMessage());
+        } catch (Exception ex) {
             return Optional.empty();
         }
 
